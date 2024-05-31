@@ -11,10 +11,10 @@ import os
 
 ####
 ## simulation parameters
-total_initial_portfolio = 3e6
+total_initial_portfolio = 2.7e6
 stock_allocation = 0.70
 portfolio_annual_withdrawal = 100e3
-sim_num_years = 40
+sim_num_years = 30
 sim_monte_carlo_iterations = 5000
 file_path = 'market_returns.csv'
 
@@ -293,7 +293,6 @@ plt.gcf().canvas.manager.set_window_title('Simulation Results')
 y_min = 0
 y_max = max(q95_portfolio)
 y_step = 100000
-print("prior ymax = " + str(y_max))
 
 if (y_max < 15 * 1000): # $15k
     y_max = 15 * 1000
@@ -339,7 +338,7 @@ elif (y_max < 30e6): # $30M
     y_step = 2e6
 elif (y_max < 50e6): # $50M
     y_max = 50e6
-    y_step = 556
+    y_step = 5e6
 elif (y_max < 75e6): # $75M
     y_max = 75e6
     y_step = 5e6
@@ -374,8 +373,6 @@ ax[0,0].set_xlabel('Year')
 ax[0,0].set_ylabel('Portfolio Value')
 ax[0,0].set_xticks(years)
 ax[0,0].grid(True)
-
-#ylim_values = ax[0, 0].get_ylim()
 
 ax[0,1].yaxis.set_major_formatter(formatter)
 ax[0,1].fill_between(years, q5_stocks, q95_stocks, alpha=.4, linewidth=0)
@@ -417,3 +414,4 @@ for a in ax.flat:
 	
 plt.tight_layout()
 plt.show(block=True)
+
