@@ -11,9 +11,9 @@ import os
 
 ####
 ## simulation parameters
-total_initial_portfolio = 2500000
+total_initial_portfolio = 10e6
 stock_allocation = 0.70
-portfolio_annual_withdrawal = 100000
+portfolio_annual_withdrawal = 000000
 sim_num_years = 40
 sim_monte_carlo_iterations = 5000
 file_path = 'market_returns.csv'
@@ -307,57 +307,57 @@ elif (y_max < 50e3): # $50k
 elif (y_max < 75e3): # $75k
     y_max = 75e3
     y_step = 5000
-elif (y_max < 15 * 10000): # $150k
-    y_max = 15 * 10000
-    y_step = 10000
-elif (y_max < 15 * 20000): # $300k
-    y_max = 15 * 20000
-    y_step = 20000
+elif (y_max < 150e3): # $150k
+    y_max = 150e3
+    y_step = 10e3
+elif (y_max < 300e3): # $300k
+    y_max = 300e3
+    y_step = 20e3
 elif (y_max < 500e3): # $500k
     y_max = 500e3
-    y_step = 50000
-elif (y_max < 15 * 50000): # $750k
-    y_max = 15 * 50000
-    y_step = 50000
-elif (y_max < 15 * 100000): # $1.5M
-    y_max = 15 * 100000
-    y_step = 100000
-elif (y_max < 15 * 200000): # $3M
-    y_max = 15 * 200000
-    y_step = 200000
+    y_step = 50e3
+elif (y_max < 750e3): # $750k
+    y_max = 750e3
+    y_step = 50e3
+elif (y_max < 1.5e6): # $1.5M
+    y_max = 1.5e6
+    y_step = 100e3
+elif (y_max < 3e6): # $3M
+    y_max = 3e6
+    y_step = 200e3
 elif (y_max < 5e6): # $5M
     y_max = 5e6
-    y_step = 500000
-elif (y_max < 15 * 500000): # $7.5M
-    y_max = 15 * 500000
-    y_step = 500000
-elif (y_max < 15 * 1000000): # $15M
-    y_max = 15 * 1000000
-    y_step = 1000000
-elif (y_max < 15 * 2000000): # $30M
-    y_max = 15 * 2000000
-    y_step = 2000000
+    y_step = 500e3
+elif (y_max < 7.5e6): # $7.5M
+    y_max = 7.5e6
+    y_step = 500e3
+elif (y_max < 15e6): # $15M
+    y_max = 15e6
+    y_step = 1e6
+elif (y_max < 30e6): # $30M
+    y_max = 30e6
+    y_step = 2e6
 elif (y_max < 50e6): # $50M
     y_max = 50e6
-    y_step = 5000000
-elif (y_max > 15 * 5000000): # $75M
-    y_max = 15 * 5000000
-    y_step = 5000000
-elif (y_max < 15 * 10000000): # $150M
-    y_max = 15 * 10000000
-    y_step = 10000000
-elif (y_max < 15 * 20000000): # $300M
-    y_max = 15 * 20000000
-    y_step = 20000000
+    y_step = 556
+elif (y_max < 75e6): # $75M
+    y_max = 75e6
+    y_step = 5e6
+elif (y_max < 150e6): # $150M
+    y_max = 150e6
+    y_step = 10e6
+elif (y_max < 300e6): # $300M
+    y_max = 300e6
+    y_step = 20e6
 elif (y_max < 500e6): # $500M
     y_max = 500e6
-    y_step = 50000000
-elif (y_max < 15 * 50000000): # $750M
-    y_max = 15 * 50000000
-    y_step = 50000000
-elif (y_max < 15 * 100000000): # $1.5B
-    y_max = 15 * 100000000
-    y_step = 100000000
+    y_step = 50e6
+elif (y_max < 750e6): # $750M
+    y_max = 750e6
+    y_step = 50e6
+elif (y_max < 1.5e9): # $1.5B
+    y_max = 1.5e9
+    y_step = 100e6
 else:
     y_step = y_max / 15
 
