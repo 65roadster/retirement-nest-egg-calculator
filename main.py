@@ -1,6 +1,5 @@
 ####
-## go use this code and do what you want with it
-
+# go do what you want with this code
 
 import csv
 import random
@@ -13,12 +12,11 @@ import os
 ####
 ## simulation parameters
 total_initial_portfolio = 2500000
-stock_allocation = 0.50
+stock_allocation = 0.70
 portfolio_annual_withdrawal = 100000
 sim_num_years = 40
 sim_monte_carlo_iterations = 5000
 file_path = 'market_returns.csv'
-
 
 # reads market returns
 def read_csv_file(file_path):
@@ -295,6 +293,7 @@ plt.gcf().canvas.manager.set_window_title('Simulation Results')
 y_min = 0
 y_max = max(q95_portfolio)
 y_step = 100000
+print("prior ymax = " + str(y_max))
 
 if (y_max < 15 * 1000): # $15k
     y_max = 15 * 1000
@@ -302,8 +301,11 @@ if (y_max < 15 * 1000): # $15k
 elif (y_max < 15 * 2000): # $30k
     y_max = 15 * 2000
     y_step = 2000
-elif (y_max < 15 * 5000): # $75k
-    y_max = 15 * 5000
+elif (y_max < 50e3): # $50k
+    y_max = 50e3
+    y_step = 5000
+elif (y_max < 75e3): # $75k
+    y_max = 75e3
     y_step = 5000
 elif (y_max < 15 * 10000): # $150k
     y_max = 15 * 10000
@@ -311,6 +313,9 @@ elif (y_max < 15 * 10000): # $150k
 elif (y_max < 15 * 20000): # $300k
     y_max = 15 * 20000
     y_step = 20000
+elif (y_max < 500e3): # $500k
+    y_max = 500e3
+    y_step = 50000
 elif (y_max < 15 * 50000): # $750k
     y_max = 15 * 50000
     y_step = 50000
@@ -320,6 +325,9 @@ elif (y_max < 15 * 100000): # $1.5M
 elif (y_max < 15 * 200000): # $3M
     y_max = 15 * 200000
     y_step = 200000
+elif (y_max < 5e6): # $5M
+    y_max = 5e6
+    y_step = 500000
 elif (y_max < 15 * 500000): # $7.5M
     y_max = 15 * 500000
     y_step = 500000
@@ -329,23 +337,33 @@ elif (y_max < 15 * 1000000): # $15M
 elif (y_max < 15 * 2000000): # $30M
     y_max = 15 * 2000000
     y_step = 2000000
+elif (y_max < 50e6): # $50M
+    y_max = 50e6
+    y_step = 5000000
 elif (y_max > 15 * 5000000): # $75M
     y_max = 15 * 5000000
     y_step = 5000000
-elif (y_max > 15 * 10000000): # $150M
+elif (y_max < 15 * 10000000): # $150M
     y_max = 15 * 10000000
     y_step = 10000000
-elif (y_max > 15 * 20000000): # $300M
+elif (y_max < 15 * 20000000): # $300M
     y_max = 15 * 20000000
     y_step = 20000000
-elif (y_max > 15 * 50000000): # $750M
+elif (y_max < 500e6): # $500M
+    y_max = 500e6
+    y_step = 50000000
+elif (y_max < 15 * 50000000): # $750M
     y_max = 15 * 50000000
     y_step = 50000000
-elif (y_max > 15 * 100000000): # $1.5B
+elif (y_max < 15 * 100000000): # $1.5B
     y_max = 15 * 100000000
     y_step = 100000000
+else:
+    y_step = y_max / 15
 
-y_ticks = np.arange(0, y_max, y_step)
+print("ymax = " + str(y_max))
+print("y_step = " + str(y_step))
+y_ticks = np.arange(0, y_max + y_step, y_step)
 
 ax[0,0].yaxis.set_major_formatter(formatter)
 ax[0,0].fill_between(years, q5_portfolio, q95_portfolio, alpha=.4, linewidth=0)
