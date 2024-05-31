@@ -11,9 +11,9 @@ import os
 
 ####
 ## simulation parameters
-total_initial_portfolio = 10e6
+total_initial_portfolio = 3e6
 stock_allocation = 0.70
-portfolio_annual_withdrawal = 000000
+portfolio_annual_withdrawal = 100e3
 sim_num_years = 40
 sim_monte_carlo_iterations = 5000
 file_path = 'market_returns.csv'
@@ -361,15 +361,14 @@ elif (y_max < 1.5e9): # $1.5B
 else:
     y_step = y_max / 15
 
-print("ymax = " + str(y_max))
-print("y_step = " + str(y_step))
-y_ticks = np.arange(0, y_max + y_step, y_step)
+y_ticks = np.arange(y_min, y_max + y_step, y_step)
 
 ax[0,0].yaxis.set_major_formatter(formatter)
 ax[0,0].fill_between(years, q5_portfolio, q95_portfolio, alpha=.4, linewidth=0)
 ax[0,0].fill_between(years, q10_portfolio, q90_portfolio, alpha=.4, linewidth=0)
 ax[0,0].fill_between(years, q25_portfolio, q75_portfolio, alpha=.4, linewidth=0)
 ax[0,0].set_yticks(y_ticks)
+ax[0,0].set_ylim(y_min, y_max)
 ax[0,0].set_title('Portfolio Results with 50%, 80%, 90% Quantiles')
 ax[0,0].set_xlabel('Year')
 ax[0,0].set_ylabel('Portfolio Value')
@@ -383,6 +382,7 @@ ax[0,1].fill_between(years, q5_stocks, q95_stocks, alpha=.4, linewidth=0)
 ax[0,1].fill_between(years, q10_stocks, q90_stocks, alpha=.4, linewidth=0)
 ax[0,1].fill_between(years, q25_stocks, q75_stocks, alpha=.4, linewidth=0)
 ax[0,1].set_yticks(y_ticks)
+ax[0,1].set_ylim(y_min, y_max)
 ax[0,1].set_title('Stocks Results with 50%, 80%, 90% Quantiles')
 ax[0,1].set_xlabel('Year')
 ax[0,1].set_ylabel('Portfolio Value')
@@ -394,6 +394,7 @@ ax[1,0].fill_between(years, q5_bonds, q95_bonds, alpha=.4, linewidth=0)
 ax[1,0].fill_between(years, q10_bonds, q90_bonds, alpha=.4, linewidth=0)
 ax[1,0].fill_between(years, q25_bonds, q75_bonds, alpha=.4, linewidth=0)
 ax[1,0].set_yticks(y_ticks)
+ax[1,1].set_ylim(y_min, y_max)
 ax[1,0].set_title('Bonds Results with 50%, 80%, 90% Quantiles')
 ax[1,0].set_xlabel('Year')
 ax[1,0].set_ylabel('Portfolio Value')
