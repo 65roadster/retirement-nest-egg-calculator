@@ -1,3 +1,7 @@
+####
+## go use this code and do what you want with it
+
+
 import csv
 import random
 import matplotlib.pyplot as plt
