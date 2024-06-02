@@ -11,6 +11,10 @@ import os
 
 ####
 ## simulation parameters
+## stocks are modeled by S&P500 historical returns, dividends are reinvested
+## the balance of the portfolio is modeled as 10 year T bills
+## The portfolio is rebalanced at the end of each year to maintain asset allocation
+
 total_initial_portfolio = 2.7e6
 stock_allocation = 0.70
 portfolio_annual_withdrawal = 100e3
@@ -64,7 +68,7 @@ def run_simulation(sim_num_years, portfolio_starting_value_stocks, portfolio_sta
         # Calculate stock and bond growth
         portfolio_stocks_prior = sim_results[len(sim_results)-1][2]
         portfolio_bonds_prior = sim_results[len(sim_results)-1][3]
-        portfolio_total_prior = portfolio_stocks_prior + portfolio_bonds_prior
+        # portfolio_total_prior = portfolio_stocks_prior + portfolio_bonds_prior
 
         portfolio_stocks_new = portfolio_stocks_prior * (1+stock_total_return_real)
         portfolio_bonds_new = portfolio_bonds_prior * (1 + bond_return_real)
@@ -118,7 +122,6 @@ for i in range(sim_monte_carlo_iterations):
 # calculate quantiles for each year
 #
 
-quartile_inner = []
 q5_stocks = []
 q10_stocks = []
 q25_stocks = []
@@ -221,9 +224,9 @@ for y in range(len(sim_monte_carlo_results[0])):
             portfolio_fails += 1
 
 #    print("# fails = " + str(portfolio_fails))
-    fails_per_year_stocks.append(1 - (stock_fails / len(sim_monte_carlo_results)))
-    fails_per_year_bonds.append(1 - (bond_fails / len(sim_monte_carlo_results)))
-    fails_per_year_portfolio.append(1 - (portfolio_fails / len(sim_monte_carlo_results)))
+#    fails_per_year_stocks.append(1 - (stock_fails / len(sim_monte_carlo_results)))
+#    fails_per_year_bonds.append(1 - (bond_fails / len(sim_monte_carlo_results)))
+#    fails_per_year_portfolio.append(1 - (portfolio_fails / len(sim_monte_carlo_results)))
 
 ####
 ## print results to terminal
