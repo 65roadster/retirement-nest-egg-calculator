@@ -18,8 +18,12 @@ os.system('cls')
 # Initial values for GUI
 total_initial_portfolio = 2.5e6
 stock_allocation = 70
-portfolio_annual_withdrawal = 100e3
-sim_num_years = 40
+portfolio_annual_withdrawal1 = 0e3
+portfolio_annual_withdrawal2 = 40e3
+portfolio_annual_withdrawal3 = 120e3
+sim_num_years1 = 1
+sim_num_years2 = 4
+sim_num_years3 = 35
 
 ####
 # Simulation parameters not in GUI
@@ -32,13 +36,21 @@ sim = simulator()
 def simulate():
     global total_initial_portfolio
     global stock_allocation
-    global portfolio_annual_withdrawal
-    global sim_num_years
+    global portfolio_annual_withdrawal1
+    global portfolio_annual_withdrawal2
+    global portfolio_annual_withdrawal3
+    global sim_num_years1
+    global sim_num_years2
+    global sim_num_years3
     global sim_monte_carlo_iterations
     global sim
 
     sim.clear()
-    sim.simulate(total_initial_portfolio, stock_allocation/100, portfolio_annual_withdrawal, sim_num_years, sim_monte_carlo_iterations)
+    sim.simulate(total_initial_portfolio, stock_allocation/100,
+	             portfolio_annual_withdrawal1, sim_num_years1,
+                 portfolio_annual_withdrawal2, sim_num_years2,
+                 portfolio_annual_withdrawal3, sim_num_years3,
+                 sim_monte_carlo_iterations)
 
 ####
 # Updates GUI graphs
@@ -237,25 +249,63 @@ def on_slider_update_balance(value):
     value_str = locale.format_string("%d", int(value), grouping=True)
     label_balance_slider_value.config(text=f"${value_str}", font=("Helvetica", 14))
 
-    on_slider_update_withdrawal(portfolio_annual_withdrawal)
+    on_slider_update_withdrawal1(portfolio_annual_withdrawal1)
+    on_slider_update_withdrawal2(portfolio_annual_withdrawal2)
+    on_slider_update_withdrawal3(portfolio_annual_withdrawal3)
 
-def on_slider_update_withdrawal(value):
-    global portfolio_annual_withdrawal
-    portfolio_annual_withdrawal = int(value)
+def on_slider_update_withdrawal1(value):
+    global portfolio_annual_withdrawal1
+    portfolio_annual_withdrawal1 = int(value)
 	
-    percent_of_portfolio = 100*portfolio_annual_withdrawal/total_initial_portfolio
+    percent_of_portfolio = 100*portfolio_annual_withdrawal1/total_initial_portfolio
 
     locale.setlocale(locale.LC_ALL, '')  # Set locale for correct thousand separators
     value_str = locale.format_string("%d", int(value), grouping=True)
-    label_withdrawal_slider_value.config(text=f"${value_str} ({percent_of_portfolio:.2f}%)", font=("Helvetica", 14))
+    label_withdrawal1_slider_value.config(text=f"${value_str} ({percent_of_portfolio:.2f}%)", font=("Helvetica", 14))
 
-def on_slider_update_duration(value):
-    global sim_num_years
-    sim_num_years = int(value)
+def on_slider_update_duration1(value):
+    global sim_num_years1
+    sim_num_years1 = int(value)
     
     locale.setlocale(locale.LC_ALL, '')  # Set locale for correct thousand separators
     value_str = locale.format_string("%d", int(value), grouping=True)
-    label_duration_slider_value.config(text=f"{value_str} years", font=("Helvetica", 14))
+    label_duration1_slider_value.config(text=f"{value_str} years", font=("Helvetica", 14))
+
+def on_slider_update_withdrawal2(value):
+    global portfolio_annual_withdrawal2
+    portfolio_annual_withdrawal2 = int(value)
+	
+    percent_of_portfolio = 100*portfolio_annual_withdrawal2/total_initial_portfolio
+
+    locale.setlocale(locale.LC_ALL, '')  # Set locale for correct thousand separators
+    value_str = locale.format_string("%d", int(value), grouping=True)
+    label_withdrawal2_slider_value.config(text=f"${value_str} ({percent_of_portfolio:.2f}%)", font=("Helvetica", 14))
+
+def on_slider_update_duration2(value):
+    global sim_num_years2
+    sim_num_years2 = int(value)
+    
+    locale.setlocale(locale.LC_ALL, '')  # Set locale for correct thousand separators
+    value_str = locale.format_string("%d", int(value), grouping=True)
+    label_duration2_slider_value.config(text=f"{value_str} years", font=("Helvetica", 14))
+
+def on_slider_update_withdrawal3(value):
+    global portfolio_annual_withdrawal3
+    portfolio_annual_withdrawal3 = int(value)
+	
+    percent_of_portfolio = 100*portfolio_annual_withdrawal3/total_initial_portfolio
+
+    locale.setlocale(locale.LC_ALL, '')  # Set locale for correct thousand separators
+    value_str = locale.format_string("%d", int(value), grouping=True)
+    label_withdrawal3_slider_value.config(text=f"${value_str} ({percent_of_portfolio:.2f}%)", font=("Helvetica", 14))
+
+def on_slider_update_duration3(value):
+    global sim_num_years3
+    sim_num_years3 = int(value)
+    
+    locale.setlocale(locale.LC_ALL, '')  # Set locale for correct thousand separators
+    value_str = locale.format_string("%d", int(value), grouping=True)
+    label_duration3_slider_value.config(text=f"{value_str} years", font=("Helvetica", 14))
 
 def on_closing():
     plt.close()  # This avoids a long shutdown time for the app
@@ -267,7 +317,7 @@ root.title("Retirement Nest Egg Simulator")
 # Set window size in pixels. This should be improved
 screen_width = root.winfo_screenwidth()
 screen_height = root.winfo_screenheight()
-geo = "" + str(min(0.9*screen_width, 2150)) + "x" + str(min(0.9*screen_height, 1000))
+geo = "" + str(int(min(0.9*screen_width, 2350))) + "x" + str(int(min(0.9*screen_height, 1000)))
 #root.geometry("2150x1000")
 root.geometry(geo)
 
@@ -293,28 +343,68 @@ slider_allocation.set(stock_allocation)
 label_slider_allocation_value = tk.Label(root, text="0%", font=("Helvetica", 14))
 label_slider_allocation_value.grid(row=1, column=2, padx=10, pady=10, sticky="w")
 
-label_withdrawal_slider = tk.Label(root, text="Annual Withdrawal:", font=("Helvetica", 14))
-label_withdrawal_slider.grid(row=2, column=0, padx=10, pady=10, sticky="e")
+label_withdrawal1_slider = tk.Label(root, text="Annual withdrawal, Tranche 1:", font=("Helvetica", 14))
+label_withdrawal1_slider.grid(row=2, column=0, padx=10, pady=10, sticky="e")
 
-slider_withdrawal = tk.Scale(root, from_=0, to=500000, orient="horizontal", tickinterval=0, resolution=5000, showvalue=False, command=on_slider_update_withdrawal, length=400)
-slider_withdrawal.grid(row=2, column=1, padx=10, pady=10, sticky="w")
-slider_withdrawal.set(portfolio_annual_withdrawal)
+slider_withdrawal1 = tk.Scale(root, from_=0, to=500000, orient="horizontal", tickinterval=0, resolution=5000, showvalue=False, command=on_slider_update_withdrawal1, length=400)
+slider_withdrawal1.grid(row=2, column=1, padx=10, pady=10, sticky="w")
+slider_withdrawal1.set(portfolio_annual_withdrawal1)
 
-label_withdrawal_slider_value = tk.Label(root, text="$0", font=("Helvetica", 14))
-label_withdrawal_slider_value.grid(row=2, column=2, padx=10, pady=10, sticky="w")
+label_withdrawal1_slider_value = tk.Label(root, text="$0", font=("Helvetica", 14))
+label_withdrawal1_slider_value.grid(row=2, column=2, padx=10, pady=10, sticky="w")
 
-label_duration_slider = tk.Label(root, text="Duration of Simulation:", font=("Helvetica", 14))
-label_duration_slider.grid(row=3, column=0, padx=10, pady=10, sticky="e")
+label_duration1_slider = tk.Label(root, text="Duration of Tranche 1:", font=("Helvetica", 14))
+label_duration1_slider.grid(row=3, column=0, padx=10, pady=10, sticky="e")
 
-slider_duration = tk.Scale(root, from_=0, to=50, orient="horizontal", tickinterval=0, resolution=1, showvalue=False, command=on_slider_update_duration, length=400)
-slider_duration.grid(row=3, column=1, padx=10, pady=10, sticky="w")
-slider_duration.set(sim_num_years)
+slider_duration1 = tk.Scale(root, from_=0, to=50, orient="horizontal", tickinterval=0, resolution=1, showvalue=False, command=on_slider_update_duration1, length=400)
+slider_duration1.grid(row=3, column=1, padx=10, pady=10, sticky="w")
+slider_duration1.set(sim_num_years1)
 
-label_duration_slider_value = tk.Label(root, text="$0", font=("Helvetica", 14))
-label_duration_slider_value.grid(row=3, column=2, padx=10, pady=10, sticky="w")
+label_duration1_slider_value = tk.Label(root, text="$0", font=("Helvetica", 14))
+label_duration1_slider_value.grid(row=3, column=2, padx=10, pady=10, sticky="w")
+
+label_withdrawal2_slider = tk.Label(root, text="Annual withdrawal, Tranche 2:", font=("Helvetica", 14))
+label_withdrawal2_slider.grid(row=4, column=0, padx=10, pady=10, sticky="e")
+
+slider_withdrawal2 = tk.Scale(root, from_=0, to=500000, orient="horizontal", tickinterval=0, resolution=5000, showvalue=False, command=on_slider_update_withdrawal2, length=400)
+slider_withdrawal2.grid(row=4, column=1, padx=10, pady=10, sticky="w")
+slider_withdrawal2.set(portfolio_annual_withdrawal2)
+
+label_withdrawal2_slider_value = tk.Label(root, text="$0", font=("Helvetica", 14))
+label_withdrawal2_slider_value.grid(row=4, column=2, padx=10, pady=10, sticky="w")
+
+label_duration2_slider = tk.Label(root, text="Duration of Tranche 2:", font=("Helvetica", 14))
+label_duration2_slider.grid(row=5, column=0, padx=10, pady=10, sticky="e")
+
+slider_duration2 = tk.Scale(root, from_=0, to=50, orient="horizontal", tickinterval=0, resolution=1, showvalue=False, command=on_slider_update_duration2, length=400)
+slider_duration2.grid(row=5, column=1, padx=10, pady=10, sticky="w")
+slider_duration2.set(sim_num_years2)
+
+label_duration2_slider_value = tk.Label(root, text="$0", font=("Helvetica", 14))
+label_duration2_slider_value.grid(row=5, column=2, padx=10, pady=10, sticky="w")
+
+label_withdrawal3_slider = tk.Label(root, text="Annual withdrawal, Tranche 3:", font=("Helvetica", 14))
+label_withdrawal3_slider.grid(row=6, column=0, padx=10, pady=10, sticky="e")
+
+slider_withdrawal3 = tk.Scale(root, from_=0, to=500000, orient="horizontal", tickinterval=0, resolution=5000, showvalue=False, command=on_slider_update_withdrawal3, length=400)
+slider_withdrawal3.grid(row=6, column=1, padx=10, pady=10, sticky="w")
+slider_withdrawal3.set(portfolio_annual_withdrawal3)
+
+label_withdrawal3_slider_value = tk.Label(root, text="$0", font=("Helvetica", 14))
+label_withdrawal3_slider_value.grid(row=6, column=2, padx=10, pady=10, sticky="w")
+
+label_duration3_slider = tk.Label(root, text="Duration of Tranche 3:", font=("Helvetica", 14))
+label_duration3_slider.grid(row=7, column=0, padx=10, pady=10, sticky="e")
+
+slider_duration3 = tk.Scale(root, from_=0, to=50, orient="horizontal", tickinterval=0, resolution=1, showvalue=False, command=on_slider_update_duration3, length=400)
+slider_duration3.grid(row=7, column=1, padx=10, pady=10, sticky="w")
+slider_duration3.set(sim_num_years3)
+
+label_duration3_slider_value = tk.Label(root, text="$0", font=("Helvetica", 14))
+label_duration3_slider_value.grid(row=7, column=2, padx=10, pady=10, sticky="w")
 
 button_simulate = tk.Button(root, text="Simulate", command=simulate_wrapper, font=("Helvetica", 14))
-button_simulate.grid(row=4, column=0, columnspan=3, pady=20)
+button_simulate.grid(row=8, column=0, columnspan=3, pady=20)
 
 # Customize column 3 (graphs) to stretch with window size
 root.grid_columnconfigure(3, weight=1, minsize=800, pad=0)

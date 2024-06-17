@@ -5,6 +5,8 @@ import csv
 import random
 import numpy as np
 
+import time
+
 
 class simulator():
     file_path = 'market_returns.csv'
@@ -85,7 +87,11 @@ class simulator():
     # Annual funds are then withdrawn
     # Portfolio is rebalanced
 
-    def run_simulation(self, sim_num_years, portfolio_starting_value_stocks, portfolio_starting_value_bonds, annual_withdrawal, stock_allocation):
+    def run_simulation(self, portfolio_starting_value_stocks, portfolio_starting_value_bonds,
+                             annual_withdrawal1, sim_num_years1,
+                             annual_withdrawal2, sim_num_years2,
+                             annual_withdrawal3, sim_num_years3,
+                             stock_allocation):
 
         ####
         # This handles one iteration of a simulation (one series of years)
@@ -103,7 +109,15 @@ class simulator():
 			portfolio_starting_value_stocks + portfolio_starting_value_bonds,
             0, 0, 0, 0 ])
 
-        for _ in range(sim_num_years):
+        for year in range(sim_num_years1+sim_num_years2+sim_num_years3):
+            if (year < sim_num_years1):
+                annual_withdrawal = float(annual_withdrawal1)
+            elif (year < sim_num_years1 + sim_num_years2):
+                annual_withdrawal = float(annual_withdrawal2)
+            else:
+                annual_withdrawal = float(annual_withdrawal3)
+
+            #print(f"year = {year:d}, withdrawal = {annual_withdrawal:f}")
             annual_withdrawal = float(annual_withdrawal)
             sim_year += 1
             random_index = random.randint(1, num_rows - 1)
@@ -151,7 +165,11 @@ class simulator():
             sim_results.append([ int(sim_year), calendar_year, portfolio_stocks_new, portfolio_bonds_new, portfolio_total_new, stock_total_return_real, stock_dividend, bond_return_real, inflation])
         return (sim_results)
 
-    def simulate(self, total_initial_portfolio, stock_allocation, portfolio_annual_withdrawal, sim_num_years, sim_monte_carlo_iterations):
+    def simulate(self, total_initial_portfolio, stock_allocation,
+                       portfolio_annual_withdrawal1, sim_num_years1,
+                       portfolio_annual_withdrawal2, sim_num_years2,
+                       portfolio_annual_withdrawal3, sim_num_years3,
+                       sim_monte_carlo_iterations):
 
         ####
         # Set up simulation parameters
@@ -161,7 +179,11 @@ class simulator():
         ####
         # Run simulations
         for i in range(sim_monte_carlo_iterations):
-            sim_single = self.run_simulation(sim_num_years, portfolio_starting_value_stocks, portfolio_starting_value_bonds, portfolio_annual_withdrawal, stock_allocation)
+            sim_single = self.run_simulation(portfolio_starting_value_stocks, portfolio_starting_value_bonds,
+			                                 portfolio_annual_withdrawal1, sim_num_years1,
+                                             portfolio_annual_withdrawal2, sim_num_years2,
+                                             portfolio_annual_withdrawal3, sim_num_years3,
+                                             stock_allocation)
             self.sim_monte_carlo_results.append(sim_single)
 
         ####
@@ -257,8 +279,12 @@ class simulator():
         print(f"Initial portfolio value = ${(total_initial_portfolio):,.0f}")
         print(f"Stocks = {(100*portfolio_starting_value_stocks / total_initial_portfolio):.1f}%")
         print(f"Bonds = {(100*portfolio_starting_value_bonds / total_initial_portfolio):.1f}%")
-        print(f"Annual Withdrawal = ${(portfolio_annual_withdrawal):,.0f}")
-        print(f"Duration of simulation = {sim_num_years:d}")
+        print(f"Annual Withdrawal, Tranche 1 = ${(portfolio_annual_withdrawal1):,.0f}")
+        print(f"Duration of simulation, Tranche 1 = {sim_num_years1:d}")
+        print(f"Annual Withdrawal, Tranche 2 = ${(portfolio_annual_withdrawal2):,.0f}")
+        print(f"Duration of simulation, Tranche 2 = {sim_num_years2:d}")
+        print(f"Annual Withdrawal, Tranche 3 = ${(portfolio_annual_withdrawal2):,.0f}")
+        print(f"Duration of simulation, Tranche 3 = {sim_num_years3:d}")
         print(f"Monte Carlo iterations = {sim_monte_carlo_iterations:d}")
         print("Returns are adjusted for inflation")
         print("Returns are calculated, then annual withdraw is taken")
